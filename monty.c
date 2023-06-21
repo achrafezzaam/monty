@@ -9,11 +9,6 @@
  */
 int main(int argc, char *argv[])
 {
-	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		return (EXIT_FAILURE);
-	}
 	FILE *fp;
 	char *line = NULL, *code[] = {NULL, NULL};
 	size_t len = 0;
@@ -21,7 +16,12 @@ int main(int argc, char *argv[])
 	void (*g)(stack_t **stack, unsigned int line_number);
 	stack_t *stack;
 	int l_count = 1;
-
+	
+	if (argc != 2)
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		return (EXIT_FAILURE);
+	}
 	fp = fopen(argv[1], "r");
 	if (fp == NULL)
 	{
