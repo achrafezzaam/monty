@@ -10,8 +10,8 @@ void add(stack_t **stack, unsigned int line_number)
 
 	if (buff == NULL || buff->next == NULL)
 	{
-		printf("L%d: can't add, stack too short", line_number);
-		exit(EXIT_FAILURE);
+	fprintf(stderr, "L%d: can't add, stack too short", line_number);
+	exit(EXIT_FAILURE);
 	}
 	buff->next->n += buff->n;
 	buff = buff->next;
