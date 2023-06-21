@@ -29,6 +29,6 @@ void (*opcode(char *op, int l))(stack_t **stack, unsigned int line_number)
 	}
 	if (func[i].f == NULL)
 		return (NULL);
-	printf("L%d: unknown instruction %s", l, op);
+	fprintf(stderr, "L%d: unknown instruction %s", l, op);
 	exit(EXIT_FAILURE);
 }
