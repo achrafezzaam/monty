@@ -31,9 +31,12 @@ int main(int argc, char *argv[])
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
 		code[0] = strtok(line, " \n");
-		g = opcode(code[0], l_count);
-		if (g)
-			g(&stack, l_count);
+		if (code[0])
+		{
+			g = opcode(code[0], l_count);
+			if (g)
+				g(&stack, l_count);
+		}
 		l_count++;
 	}
 	fclose(fp);
