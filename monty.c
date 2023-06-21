@@ -1,4 +1,12 @@
 #include "monty.h"
+/**
+ * main - The main function of the program
+ * @argc: The number of arguments
+ * @argv: An array of arguments
+ *
+ * Return: EXIT_SUCCESS if the no erro or EXIT_FAILURE if an error
+ * occurs.
+ */
 int main(int argc, char *argv[])
 {
 	if (argc != 2)
@@ -7,9 +15,11 @@ int main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	}
 	FILE *fp;
-	char *line = NULL;
+	char *line = NULL, *code[] = {NULL, NULL};
 	size_t len = 0;
 	ssize_t read;
+	void (*g)(stack_t **stack, unsigned int line_number);
+	stack_t *stack;
 	int l_count = 1;
 
 	fp = fopen(argv[1], "r");
@@ -20,11 +30,15 @@ int main(int argc, char *argv[])
 	}
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
-		printf("Line number %d: %s", l_count, line);
+		code[0] = strtok(line, " \n");
+		g = opcode(code[0], l_count);
+		if (g)
+			g(&stack, l_count);
 		l_count++;
 	}
 	fclose(fp);
 	if (line)
 		free(line);
+	free_stack(&stack);
 	exit(EXIT_SUCCESS);
 }
