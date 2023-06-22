@@ -1,6 +1,11 @@
 #ifndef FILE_H
 #define FILE_H
 
+#define  _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -31,6 +36,8 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+
 void print_all(stack_t *head);
 void push_to_stack(stack_t **head, int n);
+
 #endif
