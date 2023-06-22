@@ -5,8 +5,10 @@
  * @fp: file adress to free
  * @line: variable to free
  * @stack: stack to free
+ *
+ * Return: EXIT_FAILURE if the file wasn't found or EXIT_SUCCESS
  */
-void enough_args(int argc, FILE **fp, char **line, stack_t **stack)
+int enough_args(int argc, FILE **fp, char **line, stack_t **stack)
 {
 	if (argc != 2)
 	{
@@ -14,6 +16,7 @@ void enough_args(int argc, FILE **fp, char **line, stack_t **stack)
 		fprintf(stderr, "USAGE: monty file\n");
 		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }
 /**
  * main - The main function of the program
