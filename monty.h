@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern char *status;
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -44,5 +45,6 @@ void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t **head);
+void close_prog(FILE **fp, char **line, stack_t **stack);
 
 #endif

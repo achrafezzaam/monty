@@ -9,22 +9,24 @@
  */
 int main(int argc, char *argv[])
 {
-	FILE *fp;
+	FILE *fp = NULL;
 	char *line = NULL, *code[] = {NULL, NULL};
 	size_t len = 0;
-	ssize_t read;
-	void (*g)(stack_t **stack, unsigned int line_number);
-	stack_t *stack;
+	ssize_t read = 0;
+	void (*g)(stack_t **stack, unsigned int line_number) = NULL;
+	stack_t *stack = NULL;
 	int l_count = 1;
 
 	if (argc != 2)
 	{
+		close_prog(&fp, &line, &stack);
 		fprintf(stderr, "USAGE: monty file\n");
 		return (EXIT_FAILURE);
 	}
 	fp = fopen(argv[1], "r");
 	if (fp == NULL)
 	{
+		close_prog(&fp, &line, &stack);
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
@@ -39,9 +41,6 @@ int main(int argc, char *argv[])
 		}
 		l_count++;
 	}
-	fclose(fp);
-	if (line)
-		free(line);
-	free_stack(&stack);
+	close_prog(&fp, &line, &stack);
 	exit(EXIT_SUCCESS);
 }
