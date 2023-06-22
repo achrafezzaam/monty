@@ -19,3 +19,18 @@ void free_stack(stack_t *head)
 		free(prev);
 	}
 }
+/**
+ * close_prog - Free all the programs allocated memory
+ * @fp: The opened file's adress
+ * @line: The line content adress
+ * @stack: The doubly linked list used as stack or queue
+ */
+void close_prog(FILE **fp, char **line, stack_t **stack)
+{
+	if (*fp)
+		fclose(*fp);
+	if (*line)
+		free(*line);
+	if (*stack)
+		free_stack(stack);
+}
