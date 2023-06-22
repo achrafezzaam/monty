@@ -46,12 +46,12 @@ void (*opcode(char *op[], int l, stack_t **h))(stack_t **s, unsigned int l)
 
 	shrt = is_short(h, op[0], l);
 	empty = is_empty(h, op[0], l);
-	if (strcmp(op[0], func[0].opcode) == 0 && isnumber(op[1]) == 1)
+	if ((strcmp(op[0], func[0].opcode) == 0) && (isnumber(op[1]) == 1))
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", l);
 		return (NULL);
 	}
-	if (shrt == 1 || empty == 1)
+	if (shrt == 0 || empty == 0)
 		return (NULL);
 	while (func[i].f != NULL)
 	{

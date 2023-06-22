@@ -8,11 +8,7 @@ void pint(stack_t **stack, unsigned int line_number)
 {
 	stack_t *buff = *stack;
 
+	(void) line_number;
 	if (buff)
 		printf("%d\n", buff->n);
-	else
-	{
-	fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-	exit(EXIT_FAILURE);
-	}
 }

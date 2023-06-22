@@ -1,5 +1,21 @@
 #include "monty.h"
 /**
+ * enough_args -Check if two arguments were given to the command
+ * @argc: number of arguments
+ * @fp: file adress to free
+ * @line: variable to free
+ * @stack: stack to free
+ */
+void enough_args(int argc, FILE **fp, char **line, stack_t **stack)
+{
+	if (argc != 2)
+	{
+		close_prog(fp, line, stack);
+		fprintf(stderr, "USAGE: monty file\n");
+		return (EXIT_FAILURE);
+	}
+}
+/**
  * main - The main function of the program
  * @argc: The number of arguments
  * @argv: An array of arguments
@@ -10,19 +26,14 @@
 int main(int argc, char *argv[])
 {
 	FILE *fp = NULL;
-	char *line = NULL, *code[] = {NULL, NULL};
+	char *line = NULL, *l_cpy = NULL, *code[] = {NULL, NULL};
 	size_t len = 0;
 	ssize_t read = 0;
 	void (*g)(stack_t **stack, unsigned int line_number) = NULL;
 	stack_t *stack = NULL;
 	int l_count = 1;
 
-	if (argc != 2)
-	{
-		close_prog(&fp, &line, &stack);
-		fprintf(stderr, "USAGE: monty file\n");
-		return (EXIT_FAILURE);
-	}
+	enough_args(argc, &fp, &line, &stack);
 	fp = fopen(argv[1], "r");
 	if (fp == NULL)
 	{
@@ -32,12 +43,17 @@ int main(int argc, char *argv[])
 	}
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
-		code[0] = strtok(line, " \n");
+		l_cpy = strdup(line);
+		code[0] = strtok(l_cpy, " \n");
+		code[1] = strtok(NULL, " \n");
 		if (code[0])
 		{
 			g = opcode(code, l_count, &stack);
 			if (g)
+			{
+				code[0] = strtok(line, " \n");
 				g(&stack, l_count);
+			}
 			else
 			{
 				close_prog(&fp, &line, &stack);
