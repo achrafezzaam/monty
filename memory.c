@@ -1,21 +1,23 @@
 #include "monty.h"
+#include <stdlib.h>
+
 /**
- * free_stack - Free the given doubly linked list
+ * free_stack - Free the given double linked list
  * @head: The first element of the doubly linked list
  */
-void free_stack(stack_t **head)
+void free_stack(stack_t *head)
 {
-	stack_t *buff = *head;
+	stack_t *buff = head;
+	stack_t *prev = head;
 
 	if (buff == NULL)
-		exit(EXIT_SUCCESS);
-	while (buff->next)
+		return;
+	while (buff != NULL)
 	{
+		prev = buff;
 		buff = buff->next;
-		free(buff->prev);
+		free(prev);
 	}
-	free(buff);
-	*head = NULL;
 }
 /**
  * close_prog - Free all the programs allocated memory
