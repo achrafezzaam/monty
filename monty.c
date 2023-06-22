@@ -35,9 +35,14 @@ int main(int argc, char *argv[])
 		code[0] = strtok(line, " \n");
 		if (code[0])
 		{
-			g = opcode(code[0], l_count);
+			g = opcode(code, l_count, &stack);
 			if (g)
 				g(&stack, l_count);
+			else
+			{
+				close_prog(&fp, &line, &stack);
+				exit(EXIT_FAILURE);
+			}
 		}
 		l_count++;
 	}
