@@ -8,16 +8,19 @@
  */
 int isnumber(char *val)
 {
-	int n = 0;
+	char *str = val;
 
 	if (val == NULL)
 	{
 		return (1);
 	}
-	n = atoi(val);
-	if (n == 0 && *val != '0')
+	if (*str == '-')
+		str++;
+	while (*str)
 	{
+		if (*str < 48 || *str > 57)
 		return (1);
+		str++;
 	}
 	return (0);
 }
@@ -33,7 +36,7 @@ int isnumber(char *val)
  */
 void (*opcode(char *op[], int l, stack_t **h))(stack_t **s, unsigned int l)
 {
-	int i = 0, shrt, empty;
+	int i = 0;
 	instruction_t func[] = {
 		{"push", push},
 		{"pall", pall},
@@ -41,26 +44,31 @@ void (*opcode(char *op[], int l, stack_t **h))(stack_t **s, unsigned int l)
 		{"pop", pop},
 		{"swap", swap},
 		{"add", add},
-		{"nop", NULL}
+		{"nop", nop},
+		{NULL, NULL}
 	};
 
-	shrt = is_short(h, op[0], l);
-	empty = is_empty(h, op[0], l);
 	if ((strcmp(op[0], func[0].opcode) == 0) && (isnumber(op[1]) == 1))
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", l);
 		return (NULL);
 	}
-	if (shrt == 0 || empty == 0)
+	if (is_short(h, op[0], l, 0) == 0)
+	{
+		is_short(h, op[0], l, 1);
 		return (NULL);
+	}
+	if (is_empty(h, op[0], l, 0) == 0)
+	{
+		is_empty(h, op[0], l, 1);
+		return (NULL);
+	}
 	while (func[i].f != NULL)
 	{
 		if (strcmp(op[0], func[i].opcode) == 0)
 			return (func[i].f);
 		i++;
 	}
-	if (func[i].f == NULL)
-		return (NULL);
 	fprintf(stderr, "L%d: unknown instruction %s\n", l, op[0]);
 	return (NULL);
 }

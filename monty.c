@@ -14,9 +14,29 @@ int enough_args(int argc, FILE **fp, char **line, stack_t **stack)
 	{
 		close_prog(fp, line, stack);
 		fprintf(stderr, "USAGE: monty file\n");
-		return (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
+}
+/**
+ * open_file - Open a file
+ * @fp: The adress of the file
+ * @f_name: The file name
+ * @line: The command line (to free in case of failure to open the file)
+ * @stack: The stack (to free in case of failure to open the file)
+ *
+ * Return: return a pointer to the opened file
+ */
+FILE *open_file(FILE **fp, char *f_name, char **line, stack_t **stack)
+{
+	*fp = fopen(f_name, "r");
+	if (fp == NULL)
+	{
+		close_prog(fp, line, stack);
+		fprintf(stderr, "Error: Can't open file %s\n", f_name);
+		exit(EXIT_FAILURE);
+	}
+	return (*fp);
 }
 /**
  * main - The main function of the program
@@ -37,13 +57,7 @@ int main(int argc, char *argv[])
 	int l_count = 1;
 
 	enough_args(argc, &fp, &line, &stack);
-	fp = fopen(argv[1], "r");
-	if (fp == NULL)
-	{
-		close_prog(&fp, &line, &stack);
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
+	fp = open_file(&fp, argv[1], &line, &stack);
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
 		l_cpy = strdup(line);
@@ -59,10 +73,12 @@ int main(int argc, char *argv[])
 			}
 			else
 			{
+				free(l_cpy);
 				close_prog(&fp, &line, &stack);
 				exit(EXIT_FAILURE);
 			}
 		}
+		free(l_cpy);
 		l_count++;
 	}
 	close_prog(&fp, &line, &stack);

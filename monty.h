@@ -43,9 +43,10 @@ void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t **head);
 void close_prog(FILE **fp, char **line, stack_t **stack);
-int is_short(stack_t **h, char *opcode, int l);
-int is_empty(stack_t **h, char *opcode, int l);
+int is_short(stack_t **h, char *op, int l, int print);
+int is_empty(stack_t **h, char *op, int l, int print);
 
 #endif
