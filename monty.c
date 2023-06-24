@@ -30,7 +30,7 @@ int enough_args(int argc, FILE **fp, char **line, stack_t **stack)
 FILE *open_file(FILE **fp, char *f_name, char **line, stack_t **stack)
 {
 	*fp = fopen(f_name, "r");
-	if (fp == NULL)
+	if (*fp == NULL)
 	{
 		close_prog(fp, line, stack);
 		fprintf(stderr, "Error: Can't open file %s\n", f_name);
